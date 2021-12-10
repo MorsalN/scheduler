@@ -23,7 +23,7 @@ export default function DayListItem(props) {
 
       {props.spots === 0 && <h3 className="text--light">no spots remaining</h3>}
       {props.spots === 1 && <h3 className="text--light">1 spot remaining</h3>}
-      {props.spots && <h3 className="text--light">{props.spots} spots remaining</h3>} 
+      {props.spots > 1 && <h3 className="text--light">{props.spots} spots remaining</h3>} 
 
 
     </li>
