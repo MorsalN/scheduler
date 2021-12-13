@@ -1,29 +1,30 @@
-import React from 'react'
+import React from "react";
 import "components/Appointment/styles.scss";
 import Show from "./Show";
 import Header from "./Header";
 import Empty from "./Empty";
-
-
+import useVisualMode from "hooks/useVisualMode";
 
 export default function Appointment(props) {
-  return(
+
+  return (
     <article className="appointment">
       {/* {props.time ? <h3>Appointment at {props.time}</h3> : <h3>No Appointments</h3>} */}
       <Header time={props.time} />
-      {props.interview ? 
-      <Show 
-      student={props.interview.student} 
-      interviewer={props.interview.interviewer} 
-      onEdit={props.onEdit} 
-      onDelete={props.onDelete}
-
-      id={props.id} 
-      time={props.time} 
-      interview={props.interview}
-      /> : <Empty/>}
+      {props.interview ? (
+        <Show
+          student={props.interview.student}
+          interviewer={props.interview.interviewer}
+          onEdit={props.onEdit}
+          onDelete={props.onDelete}
+          id={props.id}
+          time={props.time}
+          interview={props.interview}
+        />
+      ) : (
+        <Empty />
+      )}
     </article>
-    
   );
 }
 
