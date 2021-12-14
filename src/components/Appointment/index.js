@@ -7,6 +7,7 @@ import useVisualMode from "hooks/useVisualMode";
 import Form from "./Form";
 import { getInterviewersForDay } from "helpers/selectors";
 import Status from "./Status";
+import Confirm from "./Confirm";
 
 export default function Appointment(props) {
 
@@ -46,6 +47,10 @@ export default function Appointment(props) {
     transition(DELETING);
   }
 
+  const transitionConfirm = function () {
+    transition(CONFIRM);
+  }
+
 
   function save(name, interviewer) {
     const interview = {
@@ -63,9 +68,13 @@ export default function Appointment(props) {
   }
 
   function remove() {
-    transitionDeleting();
-    props.cancelInterview(props.id)
-      .then(()=>transitionEmpty())
+    if (mode === SHOW) {
+      transitionConfirm()
+    } else {
+      transitionDeleting();
+      props.cancelInterview(props.id)
+        .then(() => transitionEmpty())
+    }
   }
 
   return (
@@ -100,6 +109,14 @@ export default function Appointment(props) {
 
       {mode === DELETING && (
         <Status message="Deleting" />
+      )}
+
+      {mode === CONFIRM && (
+        <Confirm 
+        message="Delete the appointment?"
+        onConfirm={remove}
+        onCancel={transitionShow}
+        />
       )}
 
     </article>
