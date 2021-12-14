@@ -17,9 +17,12 @@ export default function Appointment(props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
-  const SAVING = "SAVING"
-  const CONFIRM = "CONFIRM"
-  const DELETING = "DELETING"
+  const SAVING = "SAVING";
+  const CONFIRM = "CONFIRM";
+  const DELETING = "DELETING";
+  const EDIT = "EDIT";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
   // Object that controls the mode
   const { mode, transition, back } = useVisualMode(
@@ -47,11 +50,16 @@ export default function Appointment(props) {
     transition(DELETING);
   }
 
+  const transitionEdit = function () {
+    transition(EDIT);
+  }
+
   const transitionConfirm = function () {
     transition(CONFIRM);
   }
 
 
+  /* Saving an Appointment */
   function save(name, interviewer) {
     const interview = {
       student: name,
@@ -64,7 +72,8 @@ export default function Appointment(props) {
     transitionSaving();
 
     props.bookInterview(props.id, interview)
-      .then(() => transitionShow());
+      .then(() => transitionShow())
+    // .catch(error => transition(ERROR_SAVE))
   }
 
   function remove() {
@@ -74,6 +83,7 @@ export default function Appointment(props) {
       transitionDeleting();
       props.cancelInterview(props.id)
         .then(() => transitionEmpty())
+      // .catch(error => transition(ERROR_DELETE));
     }
   }
 
@@ -89,7 +99,7 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
-          onEdit={props.onEdit}
+          onEdit={transitionEdit}
           onDelete={remove}
         />
       )}
@@ -112,12 +122,20 @@ export default function Appointment(props) {
       )}
 
       {mode === CONFIRM && (
-        <Confirm 
-        message="Delete the appointment?"
-        onConfirm={remove}
-        onCancel={transitionShow}
+        <Confirm
+          message="Delete the appointment?"
+          onConfirm={remove}
+          onCancel={transitionShow}
         />
       )}
+
+      {mode === EDIT &&
+        <Form
+          interviewers={props.interviewers}
+          onCancel={transitionShow}
+          onSave={save}
+        />
+      }
 
     </article>
   );
