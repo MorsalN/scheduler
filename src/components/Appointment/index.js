@@ -63,8 +63,9 @@ export default function Appointment(props) {
   }
 
   function remove() {
+    transitionDeleting();
     props.cancelInterview(props.id)
-      .then(() => transitionDeleting());
+      .then(()=>transitionEmpty())
   }
 
   return (
@@ -80,7 +81,7 @@ export default function Appointment(props) {
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           onEdit={props.onEdit}
-          onDelete={props.onDelete}
+          onDelete={remove}
         />
       )}
 
