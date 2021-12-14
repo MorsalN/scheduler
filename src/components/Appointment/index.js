@@ -10,32 +10,40 @@ import Status from "./Status";
 
 export default function Appointment(props) {
 
+  console.log('props', props)
+
   // All the modes
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
   const SAVING = "SAVING"
+  const CONFIRM = "CONFIRM"
+  const DELETING = "DELETING"
 
   // Object that controls the mode
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
-  
+
   /* Transitioning to different mode when using onAdd */
-  const transitionCreate = function() {
+  const transitionCreate = function () {
     transition(CREATE);
   }
 
-  const transitionEmpty = function() {
+  const transitionEmpty = function () {
     transition(EMPTY);
   }
 
-  const transitionShow = function() {
+  const transitionShow = function () {
     transition(SHOW);
   }
 
-  const transitionSaving = function() {
+  const transitionSaving = function () {
     transition(SAVING);
+  }
+
+  const transitionDeleting = function () {
+    transition(DELETING);
   }
 
 
@@ -45,13 +53,18 @@ export default function Appointment(props) {
       interviewer
     };
 
-    console.log('interviewer',interviewer)
-    console.log('props',props)
+    // console.log('interviewer',interviewer)
+    console.log('props', props)
 
     transitionSaving();
 
     props.bookInterview(props.id, interview)
       .then(() => transitionShow());
+  }
+
+  function remove() {
+    props.cancelInterview(props.id)
+      .then(() => transitionDeleting());
   }
 
   return (
@@ -67,7 +80,7 @@ export default function Appointment(props) {
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           onEdit={props.onEdit}
-          // onDelete={props.onDelete}
+          onDelete={props.onDelete}
         />
       )}
 
@@ -76,12 +89,16 @@ export default function Appointment(props) {
           interviewers={props.interviewers}
           onCancel={back}
           onSave={save}
-          onAdd={transitionShow}
+        // onAdd={transitionShow}
 
         />)}
 
       {mode === SAVING && (
         <Status message="Saving" />
+      )}
+
+      {mode === DELETING && (
+        <Status message="Deleting" />
       )}
 
     </article>
