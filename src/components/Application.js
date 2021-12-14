@@ -39,8 +39,8 @@ export default function Application(props) {
 
   // Booking interview where state.appointments.interview is null and replacing with obj
   function bookInterview(id, interview) {
-    console.log('id',id);
-    console.log('interview',interview);
+    console.log('id', id);
+    console.log('interview', interview);
 
     const appointment = {
       ...state.appointments[id],
@@ -52,13 +52,17 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    setState({...state, appointments});
+    setState({ ...state, appointments });
+
+    return axios.put(`/api/appointments/${id}`, {interview})
+
+
 
   }
 
 
 
- /* Import the getAppointmentsForDay selector and use it to to return an array of Appointment objects */
+  /* Import the getAppointmentsForDay selector and use it to to return an array of Appointment objects */
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
@@ -66,16 +70,16 @@ export default function Application(props) {
     let interview = getInterview(state, appointment.interview);
     let interviewers = getInterviewersForDay(state, state.day);
 
-      return (
-        <Appointment
-          key={appointment.id}
-          id={appointment.id}
-          time={appointment.time}
-          interview={interview}
-          interviewers={interviewers}
-          bookInterview={bookInterview}
-        />
-      )
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+        interviewers={interviewers}
+        bookInterview={bookInterview}
+      />
+    )
   });
 
   return (
@@ -102,8 +106,8 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {schedule}
-        
-        <Appointment key = 'last' time = '5pm'/>
+
+        <Appointment key='last' time='5pm' />
       </section>
     </main>
   );
