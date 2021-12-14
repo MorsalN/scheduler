@@ -37,10 +37,8 @@ export default function Application(props) {
     });
   }, []);
 
-  // Booking interview where state.appointments.interview is null and replacing with obj
-  function bookInterview(id, interview) {
-    console.log(id, interview);
-  }
+ 
+
 
 
  /* Import the getAppointmentsForDay selector and use it to to return an array of Appointment objects */

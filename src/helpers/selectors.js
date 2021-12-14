@@ -24,10 +24,6 @@ export function getInterview(state, interview) {
 
   for (const interviewInfo in state.interviewers) {
     const interviewID = state.interviewers[interviewInfo].id;
-    // console.log('interviewInfo', state.interviewers[interviewInfo]);
-    // console.log('interviewID',interviewID);
-    // console.log('interview.interviewer', interview.interviewer);
-
 
     if (interviewID === interview.interviewer) {
       interviewObj['student'] = interview.student;
@@ -48,8 +44,6 @@ export function getInterviewersForDay(state, day) {
   if (!dayObj.interviewers) {
     return [];
   }
-
-
 
   let result = [];
 

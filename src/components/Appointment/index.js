@@ -32,6 +32,23 @@ export default function Appointment(props) {
     transition(SHOW);
   }
 
+   // Booking interview where state.appointments.interview is null and replacing with obj
+   function bookInterview(id, interview) {
+    console.log('id',id);
+    console.log('interview',interview);
+  }
+
+  function save(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer
+    };
+
+    console.log('interviewer',interviewer)
+    console.log('props',props)
+
+    bookInterview(props.id, interview);
+  }
 
   return (
     <article className="appointment">
@@ -54,7 +71,7 @@ export default function Appointment(props) {
         <Form
           interviewers={props.interviewers}
           onCancel={back}
-          // onSave={save}
+          onSave={save}
 
         />)}
 
