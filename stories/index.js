@@ -51,16 +51,22 @@ storiesOf("Button", module)
       id: 1,
       name: "Monday",
       spots: 2,
+      // interviewers:[1,2]
+
     },
     {
       id: 2,
       name: "Tuesday",
       spots: 5,
+      // interviewers:[1,2]
+
     },
     {
       id: 3,
       name: "Wednesday",
       spots: 0,
+      // interviewers:[1,2]
+
     },
   ];
   

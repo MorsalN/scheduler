@@ -18,6 +18,10 @@ export default function Form(props) {
     props.onCancel();
   }
 
+  const save = function() {
+    props.onSave(student, interviewer)
+  }
+ 
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
@@ -41,7 +45,7 @@ export default function Form(props) {
         <section className="appointment__actions">
           <Button danger onClick={event => cancel()} >Cancel</Button>
           {/* Called student and interviwer so we can see the output on console. Since those variables are declared in the Form we don't need to call props before ex. props.student. onSave is brought from stories/index.js so we need to call props since it's from outside.*/}
-          <Button confirm onClick={props.onSave(student, interviewer)} >Save</Button>
+          <Button confirm onClick={save} >Save</Button>
         </section>
       </section>
     </main>

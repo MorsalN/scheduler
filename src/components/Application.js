@@ -3,69 +3,13 @@ import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "components/Appointment";
 import axios from "axios";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 import { classBody } from "@babel/types";
 
-// const days = [
-//   {
-//     id: 1,
-//     name: "Monday",
-//     spots: 2,
-//   },
-//   {
-//     id: 2,
-//     name: "Tuesday",
-//     spots: 5,
-//   },
-//   {
-//     id: 3,
-//     name: "Wednesday",
-//     spots: 0,
-//   },
-// ];
 
-// const appointments = [
-//   {
-//     id: 1,
-//     time: "12pm",
-//   },
-//   {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer:{
-//         id: 3,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   },
-//   {
-//     id: 3,
-//     time: "2pm",
-//   },
-//   {
-//     id: 4,
-//     time: "3pm",
-//     interview: {
-//       student: "Archie Andrews",
-//       interviewer:{
-//         id: 4,
-//         name: "Cohana Roy",
-//         avatar: "https://i.imgur.com/FK8V841.jpg",
-//       }
-//     }
-//   },
-//   {
-//     id: 5,
-//     time: "4pm",
-//   }
-// ];
 
 export default function Application(props) {
   const setDay = (day) => setState({ ...state, day });
-  // const setDays = days => setState(prev => ({ ...prev, days }));
 
   const [state, setState] = useState({
     days: [],
@@ -73,8 +17,6 @@ export default function Application(props) {
     appointments: {},
     interviewers: {}
   });
-
-  console.log('states:', state);
 
   /* 
   Use axios to make a request as a side effect and update the component when data is retrieved. When a component does not have any dependencies, but we only want it to run once, we have to pass useEffect an empty array.
@@ -91,45 +33,34 @@ export default function Application(props) {
         days: all[0].data,
         appointments: all[1].data,
         interviewers: all[2].data,
-
       }));
-      // console.log('all[2].data', all[2].data)
     });
   }, []);
+
+  // Booking interview where state.appointments.interview is null and replacing with obj
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+  }
 
 
  /* Import the getAppointmentsForDay selector and use it to to return an array of Appointment objects */
 
-  // const dailyAppointments = getAppointmentsForDay(state, state.day);
-
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
   const schedule = dailyAppointments.map((appointment) => {
-    // console.log('appointment1233', appointment);
-    
     let interview = getInterview(state, appointment.interview);
-    
-    // if (state.day === 'Friday') {
-    //   console.log('state.day', state.day)
-    //   console.log('dailyAppointments', dailyAppointments)
-    //   console.log("interview",interview)
-    //   console.log("appointment.interview",appointment.interview);
-    // }
-    // if ((Object.keys(interview).length > 0)) {
-      if (interview) {
+    let interviewers = getInterviewersForDay(state, state.day);
+
       return (
         <Appointment
           key={appointment.id}
           id={appointment.id}
           time={appointment.time}
           interview={interview}
-        // {...appointment} 
+          interviewers={interviewers}
         />
       )
-    }
   });
-
-  console.log('schedule:', schedule);
 
   return (
     <main className="layout">
@@ -153,7 +84,11 @@ export default function Application(props) {
           alt="Lighthouse Labs"
         />
       </section>
-      <section className="schedule">{schedule}</section>
+      <section className="schedule">
+        {schedule}
+        
+        <Appointment key = 'last' time = '5pm'/>
+      </section>
     </main>
   );
 }

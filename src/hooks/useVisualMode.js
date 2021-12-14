@@ -1,9 +1,8 @@
 import { decorateAction } from "@storybook/addon-actions/dist/preview";
-import React, {useState} from "react"
+import {useState} from "react"
 
 
 /* Setting the Initial Mode */ 
-
 export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
   const [history, setHistory] = useState([initial]);
@@ -28,14 +27,8 @@ export default function useVisualMode(initial) {
 
       //Sets history to a copy of history minus end
       setHistory(prevHistory => prevHistory.slice(0, prevHistory.length - 1));
-
     }
-
   }
-
-  
-
-
   return { mode, transition, back }; // { mode: mode }
 }
 

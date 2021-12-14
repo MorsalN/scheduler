@@ -4,26 +4,60 @@ import Show from "./Show";
 import Header from "./Header";
 import Empty from "./Empty";
 import useVisualMode from "hooks/useVisualMode";
+import Form from "./Form";
+import { getInterviewersForDay } from "helpers/selectors";
 
 export default function Appointment(props) {
 
+  // All the modes
+  const EMPTY = "EMPTY";
+  const SHOW = "SHOW";
+  const CREATE = "CREATE";
+
+  // Object that controls the mode
+  const { mode, transition, back } = useVisualMode(
+    props.interview ? SHOW : EMPTY
+  );
+  
+  /* Transitioning to different mode when using onAdd */
+  const transitionCreate = function() {
+    transition(CREATE);
+  }
+
+  const transitionEmpty = function() {
+    transition(EMPTY);
+  }
+
+  const transitionShow = function() {
+    transition(SHOW);
+  }
+
+
   return (
     <article className="appointment">
-      {/* {props.time ? <h3>Appointment at {props.time}</h3> : <h3>No Appointments</h3>} */}
+
       <Header time={props.time} />
-      {props.interview ? (
+
+      {/* Render a component when the mode matches */}
+      {mode === EMPTY && <Empty onAdd={transitionCreate} />}
+
+      {mode === SHOW && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           onEdit={props.onEdit}
-          onDelete={props.onDelete}
-          id={props.id}
-          time={props.time}
-          interview={props.interview}
+          // onDelete={props.onDelete}
         />
-      ) : (
-        <Empty />
       )}
+
+      {mode === CREATE && (
+        <Form
+          interviewers={props.interviewers}
+          onCancel={back}
+          // onSave={save}
+
+        />)}
+
     </article>
   );
 }
@@ -34,3 +68,20 @@ export default function Appointment(props) {
 // Confirm allows a user to confirm a destructive action
 // Status informs the user that an operation is in progress
 // Error informs the user when an error occurs
+
+
+// {
+//   props.interview ? (
+//     <Show
+//       student={props.interview.student}
+//       interviewer={props.interview.interviewer}
+//       onEdit={props.onEdit}
+//       onDelete={props.onDelete}
+//       id={props.id}
+//       time={props.time}
+//       interview={props.interview}
+//     />
+//   ) : (
+//     <Empty />
+//   )
+// }
