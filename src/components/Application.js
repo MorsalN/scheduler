@@ -37,7 +37,24 @@ export default function Application(props) {
     });
   }, []);
 
- 
+  // Booking interview where state.appointments.interview is null and replacing with obj
+  function bookInterview(id, interview) {
+    console.log('id',id);
+    console.log('interview',interview);
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    setState({...state, appointments});
+
+  }
 
 
 
@@ -56,6 +73,7 @@ export default function Application(props) {
           time={appointment.time}
           interview={interview}
           interviewers={interviewers}
+          bookInterview={bookInterview}
         />
       )
   });

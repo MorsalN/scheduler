@@ -32,11 +32,6 @@ export default function Appointment(props) {
     transition(SHOW);
   }
 
-   // Booking interview where state.appointments.interview is null and replacing with obj
-   function bookInterview(id, interview) {
-    console.log('id',id);
-    console.log('interview',interview);
-  }
 
   function save(name, interviewer) {
     const interview = {
@@ -47,7 +42,9 @@ export default function Appointment(props) {
     console.log('interviewer',interviewer)
     console.log('props',props)
 
-    bookInterview(props.id, interview);
+    props.bookInterview(props.id, interview);
+
+    transitionShow();
   }
 
   return (
@@ -72,6 +69,7 @@ export default function Appointment(props) {
           interviewers={props.interviewers}
           onCancel={back}
           onSave={save}
+          onAdd={transitionShow}
 
         />)}
 
