@@ -17,6 +17,20 @@ export default function useVisualMode(initial) {
       // Asign mode to new mode
       setMode(newMode);
     }
+
+    if (replace) {
+
+      //Change history to a copy of the history with newMode at end
+      setHistory(prevHistory => {
+        const newHistory = prevHistory.slice(0, -1);
+        return [...newHistory, newMode]
+      });
+      
+      // Asign mode to new mode
+      setMode(newMode);
+    }
+
+
   }
   
   /* Going back to previous mode */ 

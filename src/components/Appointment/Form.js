@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
 
@@ -21,6 +21,13 @@ export default function Form(props) {
   const save = function() {
     props.onSave(student, interviewer)
   }
+
+  /* Removes error message sign when user puts valid name and chooses an interviewer */
+  useEffect(() => {
+    if (student && interviewer && props.error) {
+      props.setError(null);
+    }
+  })
  
   return (
     <main className="appointment__card appointment__card--create">
@@ -35,6 +42,7 @@ export default function Form(props) {
             onChange={(event) => setStudent(event.target.value)}
           />
         </form>
+        <div>{props.error}</div>
         <InterviewerList           
         interviewers={props.interviewers}           
         value={interviewer}           

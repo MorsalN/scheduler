@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "components/Appointment/styles.scss";
 import Show from "./Show";
 import Header from "./Header";
@@ -8,10 +8,11 @@ import Form from "./Form";
 import { getInterviewersForDay } from "helpers/selectors";
 import Status from "./Status";
 import Confirm from "./Confirm";
+import Error from "./Error";
 
 export default function Appointment(props) {
+  const [error, setError] = useState("");
 
-  console.log('props', props)
 
   // All the modes
   const EMPTY = "EMPTY";
@@ -47,7 +48,7 @@ export default function Appointment(props) {
   }
 
   const transitionDeleting = function () {
-    transition(DELETING);
+    transition(DELETING, true);
   }
 
   const transitionEdit = function () {
@@ -58,7 +59,6 @@ export default function Appointment(props) {
     transition(CONFIRM);
   }
 
-
   /* Saving an Appointment */
   function save(name, interviewer) {
     const interview = {
@@ -66,14 +66,15 @@ export default function Appointment(props) {
       interviewer
     };
 
-    // console.log('interviewer',interviewer)
-    console.log('props', props)
-
     transitionSaving();
 
     props.bookInterview(props.id, interview)
       .then(() => transitionShow())
-    // .catch(error => transition(ERROR_SAVE))
+      .catch(error => {
+        console.log('error save = ', error.message)
+        transition(ERROR_SAVE, true)
+      })
+
   }
 
   function remove() {
@@ -83,7 +84,7 @@ export default function Appointment(props) {
       transitionDeleting();
       props.cancelInterview(props.id)
         .then(() => transitionEmpty())
-      // .catch(error => transition(ERROR_DELETE));
+        .catch(error => transition(ERROR_DELETE, true));
     }
   }
 
@@ -109,8 +110,8 @@ export default function Appointment(props) {
           interviewers={props.interviewers}
           onCancel={back}
           onSave={save}
-        // onAdd={transitionShow}
-
+          error={error}
+          setError={setError}
         />)}
 
       {mode === SAVING && (
@@ -134,7 +135,18 @@ export default function Appointment(props) {
           interviewers={props.interviewers}
           onCancel={transitionShow}
           onSave={save}
+          interviewer={props.interview.interviewer}
+          student={props.interview.student}
+          error={error}
         />
+      }
+
+      {mode === ERROR_SAVE &&
+        <Error message="Could not save this appointment" onClose={back} />
+      }
+
+      {mode === ERROR_DELETE &&
+        <Error message="Could not delete this appointment" onClose={back} />
       }
 
     </article>
@@ -147,20 +159,3 @@ export default function Appointment(props) {
 // Confirm allows a user to confirm a destructive action
 // Status informs the user that an operation is in progress
 // Error informs the user when an error occurs
-
-
-// {
-//   props.interview ? (
-//     <Show
-//       student={props.interview.student}
-//       interviewer={props.interview.interviewer}
-//       onEdit={props.onEdit}
-//       onDelete={props.onDelete}
-//       id={props.id}
-//       time={props.time}
-//       interview={props.interview}
-//     />
-//   ) : (
-//     <Empty />
-//   )
-// }
