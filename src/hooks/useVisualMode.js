@@ -20,7 +20,7 @@ export default function useVisualMode(initial) {
 
     if (replace) {
 
-      //Change history to a copy of the history with newMode at end
+      //Change history to a copy of the history with newMode replaced at end
       setHistory(prevHistory => {
         const newHistory = prevHistory.slice(0, -1);
         return [...newHistory, newMode]

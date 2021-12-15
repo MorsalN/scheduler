@@ -1,6 +1,8 @@
 export function getAppointmentsForDay(state, day) {
   const dayObj = state.days.find(dayInDays => dayInDays.name === day);
 
+  // console.log('dayObj', dayObj);
+
   if (!dayObj) {
     return [];
   }
@@ -11,6 +13,7 @@ export function getAppointmentsForDay(state, day) {
     const appointmentObj = state.appointments[id];
     result.push(appointmentObj)
   }
+  console.log('getAppointmentsForDay => ', result)
   return result;
 }
 
