@@ -35,6 +35,7 @@ export default function Form(props) {
       setError("Student name cannot be blank :( ");
       return;
     }
+    setError("");
     props.onSave(student, interviewer);
   }
 
@@ -67,7 +68,6 @@ export default function Form(props) {
         <section className="appointment__actions">
           <Button danger onClick={event => cancel()} >Cancel</Button>
           {/* Called student and interviwer so we can see the output on console. Since those variables are declared in the Form we don't need to call props before ex. props.student. onSave is brought from stories/index.js so we need to call props since it's from outside.*/}
-          {/* <Button confirm onClick={save} >Save</Button> */}
           <Button confirm onClick={event => validate()} >Save</Button>
         </section>
       </section>
