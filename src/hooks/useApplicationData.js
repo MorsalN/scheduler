@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import "components/Application.scss";
-import { getAppointmentsForDay } from "helpers/selectors";
 
 import axios from "axios";
 
@@ -103,7 +102,7 @@ export default function useApplicationData() {
       }
     })
 
-    // return the mapped days
+    // return the mapped days array
     return days;
   };
 

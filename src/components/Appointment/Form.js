@@ -5,6 +5,7 @@ import InterviewerList from "components/InterviewerList";
 export default function Form(props) {
   const [student, setStudent] = useState(props.student || "");   
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
+  const [error, setError] = useState("");
 
   // Resets Form to empty values
   const reset = function() {
@@ -18,9 +19,9 @@ export default function Form(props) {
     props.onCancel();
   }
 
-  const save = function() {
-    props.onSave(student, interviewer)
-  }
+  // const save = function() {
+  //   props.onSave(student, interviewer)
+  // }
 
   /* Removes error message sign when user puts valid name and chooses an interviewer */
   useEffect(() => {
@@ -28,6 +29,16 @@ export default function Form(props) {
       props.setError(null);
     }
   })
+
+  function validate() {
+    if (student === "") {
+      setError("Student name cannot be blank :( ");
+      return;
+    }
+    props.onSave(student, interviewer);
+  }
+
+  
  
   return (
     <main className="appointment__card appointment__card--create">
@@ -40,9 +51,12 @@ export default function Form(props) {
             placeholder="Enter Student Name"
             value={student}
             onChange={(event) => setStudent(event.target.value)}
+            data-testid="student-name-input"
+            
           />
         </form>
-        <div>{props.error}</div>
+        {/* <div>{props.error}</div> */}
+        <section className="appointment__validation">{error}</section>
         <InterviewerList           
         interviewers={props.interviewers}           
         value={interviewer}           
@@ -53,7 +67,8 @@ export default function Form(props) {
         <section className="appointment__actions">
           <Button danger onClick={event => cancel()} >Cancel</Button>
           {/* Called student and interviwer so we can see the output on console. Since those variables are declared in the Form we don't need to call props before ex. props.student. onSave is brought from stories/index.js so we need to call props since it's from outside.*/}
-          <Button confirm onClick={save} >Save</Button>
+          {/* <Button confirm onClick={save} >Save</Button> */}
+          <Button confirm onClick={event => validate()} >Save</Button>
         </section>
       </section>
     </main>

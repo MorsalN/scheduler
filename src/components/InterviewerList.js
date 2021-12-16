@@ -1,6 +1,7 @@
 import React from "react";
 import "components/InterviewerList.scss"
 import InterviewerListItem from "./InterviewerListItem";
+import PropTypes from 'prop-types';
 
 export default function InterviewerList(props) {
   const mapInterviewList = props.interviewers.map(item => 
@@ -23,3 +24,9 @@ export default function InterviewerList(props) {
     </section>
   );
 }
+
+/* The prop that we are going to validate is interviewers. We will make sure that the interviewers prop is an Array and that it is required.*/
+
+InterviewerList.propTypes = {
+  interviewers: PropTypes.array.isRequired
+};
