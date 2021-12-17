@@ -50,3 +50,10 @@ npm run storybook
 
 #### Back to Home 
 !["Home Page"](https://github.com/MorsalN/scheduler/blob/master/public/docs/Home.png)
+
+## Project Stack
+
+Front-End: React, SASS, Axios
+Back-End: Node.js, Express
+Database: PostgreSQL
+Testing: Jest, Cypress
