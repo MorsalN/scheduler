@@ -11,6 +11,7 @@ export default function DayList(props) {
       selected={item.name === props.value}
       // selected={item.name === props.day}
       setDay={props.onChange}
+      // data-testid="day"
       />
       );
   return(
