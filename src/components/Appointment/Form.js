@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
 
 export default function Form(props) {
-  const [student, setStudent] = useState(props.student || "");   
+  const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [error, setError] = useState("");
 
   // Resets Form to empty values
-  const reset = function() {
+  const reset = function () {
     setStudent("");
     setInterviewer(null);
   }
 
   // Reset Form and cancels
-  const cancel = function() {
+  const cancel = function () {
     reset();
     props.onCancel();
   }
@@ -31,16 +31,18 @@ export default function Form(props) {
   })
 
   function validate() {
-    if (student === "" || interviewer === null) {
-      setError("Enter Student Name and Choose Interviewer! ");
+    // if (student === "" || interviewer === null) {
+      
+      if (student === "") {
+      setError("student name cannot be blank");
       return;
     }
     setError("");
     props.onSave(student, interviewer);
   }
 
-  
- 
+
+
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
@@ -51,17 +53,24 @@ export default function Form(props) {
             type="text"
             placeholder="Enter Student Name"
             value={student}
-            onChange={(event) => setStudent(event.target.value)}
+            onChange={(event) => {
+              if (event.target.value !== "") {
+              setError("");
+              setStudent(event.target.value)
+              }
+              }
+            }
+
             data-testid="student-name-input"
-            
+
           />
         </form>
         {/* <div>{props.error}</div> */}
         <section className="appointment__validation">{error}</section>
-        <InterviewerList           
-        interviewers={props.interviewers}           
-        value={interviewer}           
-        onChange={setInterviewer}        
+        <InterviewerList
+          interviewers={props.interviewers}
+          value={interviewer}
+          onChange={setInterviewer}
         />
       </section>
       <section className="appointment__card-right">

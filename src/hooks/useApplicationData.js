@@ -34,7 +34,7 @@ export default function useApplicationData() {
 
   /* BOOKING INTERVIEW where state.appointments.interview is null and replacing with obj */
 
-  function bookInterview(id, interview) {
+  function bookInterview(id, interview, isEdit) {
     console.log('id', id);
     console.log('interview', interview);
 
@@ -48,7 +48,11 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    const days = updateSpots("bookInterview");
+    let days = state.days;
+
+    if (!isEdit) {
+      days = updateSpots("bookInterview");
+    }
 
     return axios
       .put(`/api/appointments/${id}`, { interview })
