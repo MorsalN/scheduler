@@ -19,10 +19,6 @@ export default function Form(props) {
     props.onCancel();
   }
 
-  // const save = function() {
-  //   props.onSave(student, interviewer)
-  // }
-
   /* Removes error message sign when user puts valid name and chooses an interviewer */
   useEffect(() => {
     if (student && interviewer && props.error) {
@@ -31,8 +27,8 @@ export default function Form(props) {
   })
 
   function validate() {
+    // Below comment would make it manditory to choose an interviewer 
     // if (student === "" || interviewer === null) {
-      
       if (student === "") {
       setError("student name cannot be blank");
       return;
@@ -65,7 +61,7 @@ export default function Form(props) {
 
           />
         </form>
-        {/* <div>{props.error}</div> */}
+
         <section className="appointment__validation">{error}</section>
         <InterviewerList
           interviewers={props.interviewers}
